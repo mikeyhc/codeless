@@ -4,6 +4,8 @@
 *.plt
 erl_crash.dump
 .concrete/DEV_MODE
+.erlang.cookie
+logs?
 
 # rebar 2.x
 .rebar
@@ -15,3 +17,8 @@ deps
 .rebar3
 _build/
 _checkouts/
+rebar3.crashdump
+
+# vim
+*.sw[po]
+*~
