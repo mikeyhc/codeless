@@ -6,8 +6,9 @@
 
 -record(codeless_koan, {title :: string(),
                         number :: integer(),
-                        content :: string(),
-                        names :: [string()]
+                        geekiness :: non_neg_integer(),
+                        names :: [string()],
+                        content :: string()
                         }).
 
 -record(codeless_name, {name :: string(),
@@ -54,12 +55,14 @@ build_koan(Metadata, Content0) ->
                 false -> Title0
             end,
     Number = keyfind("Number", 1, Metadata, "0"),
+    Geekiness = keyfind("Geekiness", 1, Metadata, "0"),
     Names = string:split(keyfind("Names", 1, Metadata, []), ", ", all),
     Content = strip_tags(Content0),
     #codeless_koan{title=Title,
                    number=list_to_integer(Number),
-                   content=Content,
-                   names=Names}.
+                   geekiness=list_to_integer(Geekiness),
+                   names=Names,
+                   content=Content}.
 
 build_name(Metadata, Content0) ->
     {_, Name} = lists:keyfind("Name", 1, Metadata),
@@ -101,10 +104,13 @@ strip_tags([_|T], true, Ref, Acc) ->
 strip_tags([H|T], false, Ref, Acc) ->
     strip_tags(T, false, Ref, [H|Acc]).
 
-koan_to_map(#codeless_koan{title=T, number=N, content=C, names=Names}) ->
-    #{title => T, number => N,
-      content => C,
-      names => Names
+koan_to_map(#codeless_koan{title=T, number=N, geekiness=G, names=Names,
+                           content=C}) ->
+    #{title => T,
+      number => N,
+      geekiness => G,
+      names => Names,
+      content => C
      }.
 
 name_to_map(#codeless_name{name=N, content=C, references=Ref}) ->

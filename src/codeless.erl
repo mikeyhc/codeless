@@ -65,6 +65,8 @@ get_koan(Key) ->
 print_koan(Koan) ->
     io:format("~s~nCase ~p~n",
               [maps:get(title, Koan), maps:get(number, Koan)]),
+    io:format("Geekiness: ~s~n",
+              [lists:duplicate(maps:get(geekiness, Koan),  "*")]),
     case maps:get(names, Koan, []) of
         [] -> io:format("~n");
         Names -> io:format("References: ~s~n~n", [string:join(Names, ", ")])
