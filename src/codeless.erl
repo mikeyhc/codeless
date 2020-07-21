@@ -93,9 +93,9 @@ print_name(Name) ->
     end.
 
 print_reference(Reference) ->
-    {koan, Koan} = codeless_db:get_koan(codeless_path(), {number, Reference}),
-    io:format("~s - ~s~n", [string:right([$#|integer_to_list(Reference)], 5),
-                            maps:get(title, Koan)]).
+    {koan, Koan} = codeless_db:get_koan(codeless_path(), {koan, Reference}),
+    Number = string:right([$#|integer_to_list(maps:get(number, Koan))], 5),
+    io:format("~s - ~s~n", [Number, maps:get(title, Koan)]).
 
 codeless_path() ->
     os:getenv("HOME") ++ "/.codeless".

@@ -43,7 +43,7 @@ add_koan(Table, Mappings, Names, Koan) ->
         false -> io:format("failed to add mapping ~p~n", [Mapping])
     end,
     F = fun(Ref) ->
-                NameRef = codeless_file:build_name_reference(Ref, Number),
+                NameRef = codeless_file:build_name_reference(Ref, Title),
                 add_name(Names, NameRef)
         end,
     lists:foreach(F, codeless_file:koan_names(Koan)).
