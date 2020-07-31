@@ -89,11 +89,16 @@ print_name(Name) ->
         [] -> ok;
         References ->
             io:format("Referenced in:~n"),
-            lists:foreach(fun print_reference/1, References)
+            Rs = lists:map(fun get_reference/1, References),
+            Sort = fun(#{number := A}, #{number := B}) -> A < B end,
+            lists:foreach(fun print_reference/1, lists:sort(Sort, Rs))
     end.
 
-print_reference(Reference) ->
+get_reference(Reference) ->
     {koan, Koan} = codeless_db:get_koan(codeless_path(), {koan, Reference}),
+    Koan.
+
+print_reference(Koan) ->
     Number = string:right([$#|integer_to_list(maps:get(number, Koan))], 5),
     io:format("~s - ~s~n", [Number, maps:get(title, Koan)]).
 
